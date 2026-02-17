@@ -10,29 +10,70 @@
     <main class="app">
       <h1 class="title">Joy's Todo</h1>
 
-      <section class="composer">
-        <input
-          id="todo-input"
-          type="text"
-          placeholder="오늘의 할일은?"
-          autocomplete="off"
-        />
-        <button id="add-button" type="button">+</button>
-      </section>
+      <div class="container">
+        <!-- Calendar Section -->
+        <section class="calendar-section">
+          <div class="calendar-header">
+            <button id="prev-month" class="calendar-nav">◀</button>
+            <h3 id="calendar-title"></h3>
+            <button id="next-month" class="calendar-nav">▶</button>
+          </div>
+          <div class="calendar-weekdays">
+            <div>일</div>
+            <div>월</div>
+            <div>화</div>
+            <div>수</div>
+            <div>목</div>
+            <div>금</div>
+            <div>토</div>
+          </div>
+          <div id="calendar-days" class="calendar-days"></div>
+        </section>
 
-      <section class="board">
-        <div class="tabs">
-          <button class="tab is-active" data-filter="all" type="button">
-            모두
-          </button>
-          <button class="tab" data-filter="active" type="button">
-            진행중
-          </button>
-          <button class="tab" data-filter="done" type="button">끝남</button>
-        </div>
-        <ul id="todo-list" class="list"></ul>
-      </section>
+        <!-- Todo Section -->
+        <section class="todo-section">
+          <section class="composer">
+            <input
+              id="todo-input"
+              type="text"
+              placeholder="이달의 목표"
+              autocomplete="off"
+            />
+            <button id="add-button" type="button">+</button>
+          </section>
+
+          <section class="month-todo-box">
+            <h4>이달의 목표</h4>
+            <ul id="month-todo-list" class="month-todo-list"></ul>
+          </section>
+
+          <section class="board">
+            <div class="tabs">
+              <button class="tab is-active" data-filter="all" type="button">
+                모두
+              </button>
+              <button class="tab" data-filter="active" type="button">
+                진행중
+              </button>
+              <button class="tab" data-filter="done" type="button">끝남</button>
+            </div>
+            <ul id="todo-list" class="list"></ul>
+          </section>
+        </section>
+      </div>
     </main>
+
+    <!-- Custom Modal -->
+    <div id="todo-modal" class="modal">
+      <div class="modal-content">
+        <p id="modal-title" class="modal-title"></p>
+        <input id="modal-input" type="text" class="modal-input" />
+        <div class="modal-buttons">
+          <button id="modal-confirm" class="modal-btn modal-confirm">확인</button>
+          <button id="modal-cancel" class="modal-btn modal-cancel">취소</button>
+        </div>
+      </div>
+    </div>
 
     <script src="main.js"></script>
   </body>

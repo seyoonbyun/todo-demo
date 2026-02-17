@@ -22,19 +22,75 @@ const today = new Date(2026, 1, 18);
 // 끝남탭은 끝남아이템만, 진행중탭은 진행중 아이템만
 // 전체 탭을 누르면 다시 전체아이템으로 돌아옴
 
+// localStorage에서 데이터 로드
+function loadFromStorage() {
+	const savedTasks = localStorage.getItem('taskList');
+	const savedGoals = localStorage.getItem('monthGoals');
+	
+	let tasks = [];
+	let goals = [];
+	
+	// taskList 로드
+	if (savedTasks) {
+		try {
+			tasks = JSON.parse(savedTasks);
+		} catch (e) {
+			console.error('Failed to load tasks:', e);
+			// 오류 시 초기값 사용
+			tasks = [
+				{ id: 1, text: "할일추가하기 앱 완성하기", isComplete: false, date: "2026-02-18" },
+				{ id: 2, text: "냠냠냠", isComplete: false, date: "2026-02-18" },
+				{ id: 3, text: "명절이지만", isComplete: false, date: "2026-02-19" },
+				{ id: 4, text: "과제는 해야해", isComplete: false, date: "2026-02-20" },
+			];
+		}
+	} else {
+		// localStorage에 데이터가 없으면 초기값
+		tasks = [
+			{ id: 1, text: "할일추가하기 앱 완성하기", isComplete: false, date: "2026-02-18" },
+			{ id: 2, text: "냠냠냠", isComplete: false, date: "2026-02-18" },
+			{ id: 3, text: "명절이지만", isComplete: false, date: "2026-02-19" },
+			{ id: 4, text: "과제는 해야해", isComplete: false, date: "2026-02-20" },
+		];
+	}
+	
+	// monthGoals 로드
+	if (savedGoals) {
+		try {
+			goals = JSON.parse(savedGoals);
+		} catch (e) {
+			console.error('Failed to load goals:', e);
+			// 오류 시 초기값 사용
+			goals = [
+				{ id: 101, text: "건강한 생활 습관 만들기", month: "2026-02" },
+				{ id: 102, text: "독서 5권 완독하기", month: "2026-02" },
+			];
+		}
+	} else {
+		// localStorage에 데이터가 없으면 초기값
+		goals = [
+			{ id: 101, text: "건강한 생활 습관 만들기", month: "2026-02" },
+			{ id: 102, text: "독서 5권 완독하기", month: "2026-02" },
+		];
+	}
+	
+	return { tasks, goals };
+}
+
+// localStorage에 데이터 저장
+function saveToStorage() {
+	localStorage.setItem('taskList', JSON.stringify(taskList));
+	localStorage.setItem('monthGoals', JSON.stringify(monthGoals));
+}
+
+// 초기 데이터 로드
+const initialData = loadFromStorage();
+
 // 날짜별 할일 리스트
-let taskList = [
-	{ id: 1, text: "할일추가하기 앱 완성하기", isComplete: false, date: "2026-02-18" },
-	{ id: 2, text: "냠냠냠", isComplete: false, date: "2026-02-18" },
-	{ id: 3, text: "명절이지만", isComplete: false, date: "2026-02-19" },
-	{ id: 4, text: "과제는 해야해", isComplete: false, date: "2026-02-20" },
-];
+let taskList = initialData.tasks;
 
 // 이달의 목표 리스트 (별도 관리)
-let monthGoals = [
-	{ id: 101, text: "건강한 생활 습관 만들기", month: "2026-02" },
-	{ id: 102, text: "독서 5권 완독하기", month: "2026-02" },
-];
+let monthGoals = initialData.goals;
 
 // 날짜 포맷 함수 (YYYY-MM-DD)
 function formatDate(date) {
@@ -54,10 +110,19 @@ function formatDateDisplay(dateStr) {
 const render = () => {
 	list.innerHTML = "";
 
+	// 캘린더의 현재 월 가져오기 (YYYY-MM 형식)
+	const currentYear = currentDate.getFullYear();
+	const currentMonth = String(currentDate.getMonth() + 1).padStart(2, "0");
+	const currentYearMonth = `${currentYear}-${currentMonth}`;
+
 	// 필터에 따라 표시할 목록 정하기
 	let visible = [];
 	for (let i = 0; i < taskList.length; i++) {
 		const task = taskList[i];
+		
+		// 월 필터링 (캘린더의 현재 월과 일치하는 할일만)
+		if (!task.date.startsWith(currentYearMonth)) continue;
+		
 		// 날짜 필터링
 		if (selectedDate) {
 			const selectedDateStr = formatDate(selectedDate);
@@ -72,6 +137,13 @@ const render = () => {
 			visible.push(task);
 		}
 	}
+
+	// 날짜순으로 정렬 (오래된 날짜가 위로)
+	visible.sort((a, b) => {
+		if (a.date < b.date) return -1;
+		if (a.date > b.date) return 1;
+		return 0;
+	});
 
 	// DOM에 렌더링하기
 	for (let i = 0; i < visible.length; i++) {
@@ -151,6 +223,7 @@ const addTask = () => {
 	const nextId = Date.now();
 	monthGoals.push({ id: nextId, text: value, month: currentMonth });
 	input.value = "";
+	saveToStorage();
 	renderMonthGoals();
 	console.log(monthGoals);
 };
@@ -162,6 +235,7 @@ function editMonthGoal(id) {
 			const newText = prompt("목표를 수정하세요:", monthGoals[i].text);
 			if (newText && newText.trim()) {
 				monthGoals[i].text = newText.trim();
+				saveToStorage();
 				renderMonthGoals();
 				console.log(monthGoals);
 			}
@@ -178,6 +252,7 @@ function deleteMonthGoal(id) {
 			break;
 		}
 	}
+	saveToStorage();
 	renderMonthGoals();
 	console.log(monthGoals);
 }
@@ -190,6 +265,7 @@ function toggleComplete(id) {
 			break;
 		}
 	}
+	saveToStorage();
 	render();
 	console.log(taskList);
 }
@@ -202,6 +278,7 @@ function deleteTask(id) {
 			break;
 		}
 	}
+	saveToStorage();
 	render();
 	console.log(taskList);
 }
@@ -264,6 +341,7 @@ function renderCalendar() {
 						isComplete: false, 
 						date: taskDate 
 					});
+					saveToStorage();
 					console.log(taskList);
 					// 할일 추가 후 selectedDate 초기화하여 전체 목록 표시
 					selectedDate = null;
@@ -373,12 +451,14 @@ prevMonthBtn.addEventListener("click", () => {
 	currentDate.setMonth(currentDate.getMonth() - 1);
 	renderCalendar();
 	renderMonthGoals();
+	render();
 });
 
 nextMonthBtn.addEventListener("click", () => {
 	currentDate.setMonth(currentDate.getMonth() + 1);
 	renderCalendar();
 	renderMonthGoals();
+	render();
 });
 
 // 초기 렌더링
