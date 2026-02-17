@@ -15,10 +15,10 @@ let filter = "all";
 // 전체 탭을 누르면 다시 전체아이템으로 돌아옴
 
 let taskList = [
-	{ id: 1, text: "강의 찍기", isComplete: false },
-	{ id: 2, text: "자녀먹국", isComplete: false },
-	{ id: 3, text: "독서하기", isComplete: false },
-	{ id: 4, text: "운동하기", isComplete: false },
+	{ id: 1, text: "할일추가하기 앱 완성하기", isComplete: false },
+	{ id: 2, text: "냠냠냠", isComplete: false },
+	{ id: 3, text: "명절이지만", isComplete: false },
+	{ id: 4, text: "과제는 해야해", isComplete: false },
 ];
 
 // 화면에 렌더링
@@ -59,12 +59,12 @@ const render = () => {
 
 		const toggle = document.createElement("button");
 		toggle.type = "button";
-		toggle.textContent = "Check";
+		toggle.textContent = task.isComplete ? "↺" : "✓";
 		toggle.addEventListener("click", () => toggleComplete(task.id));
 
 		const remove = document.createElement("button");
 		remove.type = "button";
-		remove.textContent = "Delete";
+		remove.textContent = "🗑";
 		remove.addEventListener("click", () => deleteTask(task.id));
 
 		actions.appendChild(toggle);
@@ -120,7 +120,7 @@ input.addEventListener("keydown", (event) => {
 	if (event.key === "Enter") addTask();
 });
 
-// 진행중, 끝남 탭을 누르면 여더바가 이동한다
+// 진행중, 끝남 탭을 누르면 언더바가 이동한다
 tabs.forEach((tab) => {
 	tab.addEventListener("click", () => {
 		tabs.forEach((btn) => btn.classList.remove("is-active"));
