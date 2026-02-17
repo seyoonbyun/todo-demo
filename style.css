@@ -5,88 +5,197 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
-  padding: 24px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 
 .app {
   width: 700px;
   max-width: 100%;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
 .title {
-  font-size: 28px;
-  margin-bottom: 12px;
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #333;
+  text-align: center;
 }
 
 .composer {
   display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: 12px;
+  margin-bottom: 28px;
 }
 
 .composer input {
   flex: 1;
-  padding: 6px 8px;
-  border: 1px solid #ccc;
+  padding: 14px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.composer input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+  background: #f8f9ff;
 }
 
 .composer button {
-  width: 32px;
-  height: 28px;
-  border: 1px solid #999;
-  background: #f5f5f5;
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
   cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.composer button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
 }
 
 .board {
-  border: 1px solid #ddd;
+  background: #fafafa;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 .tabs {
   display: flex;
-  gap: 20px;
-  padding: 8px 10px;
-  border-bottom: 1px solid #ddd;
+  gap: 0;
+  padding: 0;
+  border-bottom: 2px solid #e0e0e0;
+  background: white;
 }
 
 .tab {
+  flex: 1;
   background: none;
   border: none;
   cursor: pointer;
   font-size: 14px;
-  padding-bottom: 6px;
+  font-weight: 600;
+  padding: 16px;
+  color: #999;
+  transition: all 0.3s ease;
+  text-align: center;
+  position: relative;
+}
+
+.tab:hover {
+  color: #667eea;
+  background: #f5f7ff;
 }
 
 .tab.is-active {
-  border-bottom: 3px solid #f3a4a4;
+  color: #667eea;
+}
+
+.tab.is-active::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
 }
 
 .list {
   list-style: none;
+  padding: 12px;
 }
 
 .list__item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 10px;
-  border-top: 1px solid #eee;
+  padding: 16px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background: white;
+  border: 2px solid #f0f0f0;
+  transition: all 0.3s ease;
+}
+
+.list__item:hover {
+  border-color: #667eea;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
+
+.list__item.is-done {
+  background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%);
+  border-color: #d0d0d0;
+}
+
+.list__text {
+  font-size: 16px;
+  color: #333;
+  flex: 1;
+  font-weight: 500;
 }
 
 .list__text.is-done {
   text-decoration: line-through;
-  color: #777;
+  color: #aaa;
 }
 
 .list__actions {
   display: flex;
-  gap: 6px;
+  gap: 8px;
+  align-items: center;
 }
 
 .list__actions button {
-  padding: 3px 6px;
-  border: 1px solid #999;
-  background: #fafafa;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  background: white;
   cursor: pointer;
+  font-size: 18px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.list__actions button:first-child {
+  color: #4caf50;
+  border: 2px solid #4caf50;
+}
+
+.list__actions button:first-child:hover {
+  background: #4caf50;
+  color: white;
+  transform: scale(1.05);
+}
+
+.list__actions button:last-child {
+  color: #ff6b6b;
+  border: 2px solid #ff6b6b;
+}
+
+.list__actions button:last-child:hover {
+  background: #ff6b6b;
+  color: white;
+  transform: scale(1.05);
 }
