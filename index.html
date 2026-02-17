@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <h1 class="title">Todo List</h1>
+
+      <section class="composer">
+        <input
+          id="todo-input"
+          type="text"
+          placeholder="오늘의 할일은?"
+          autocomplete="off"
+        />
+        <button id="add-button" type="button">+</button>
+      </section>
+
+      <section class="board">
+        <div class="tabs">
+          <button class="tab is-active" data-filter="all" type="button">
+            모두
+          </button>
+          <button class="tab" data-filter="active" type="button">
+            진행중
+          </button>
+          <button class="tab" data-filter="done" type="button">끝남</button>
+        </div>
+        <ul id="todo-list" class="list"></ul>
+      </section>
+    </main>
+
+    <script src="main.js"></script>
+  </body>
+</html>
