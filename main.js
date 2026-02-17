@@ -62,15 +62,13 @@ function loadFromStorage() {
 			console.error('Failed to load goals:', e);
 			// 오류 시 초기값 사용
 			goals = [
-				{ id: 101, text: "건강한 생활 습관 만들기", month: "2026-02" },
-				{ id: 102, text: "독서 5권 완독하기", month: "2026-02" },
+				{ id: 101, text: "자바 챌린지 완주 !!", month: "2026-02" },
 			];
 		}
 	} else {
 		// localStorage에 데이터가 없으면 초기값
 		goals = [
-			{ id: 101, text: "건강한 생활 습관 만들기", month: "2026-02" },
-			{ id: 102, text: "독서 5권 완독하기", month: "2026-02" },
+			{ id: 101, text: "자바 챌린지 완주 !!", month: "2026-02" },
 		];
 	}
 	
@@ -232,13 +230,15 @@ const addTask = () => {
 function editMonthGoal(id) {
 	for (let i = 0; i < monthGoals.length; i++) {
 		if (monthGoals[i].id === id) {
-			const newText = prompt("목표를 수정하세요:", monthGoals[i].text);
-			if (newText && newText.trim()) {
-				monthGoals[i].text = newText.trim();
-				saveToStorage();
-				renderMonthGoals();
-				console.log(monthGoals);
-			}
+			const currentText = monthGoals[i].text;
+			showEditGoalModal(currentText, (newText) => {
+				if (newText && newText.trim()) {
+					monthGoals[i].text = newText.trim();
+					saveToStorage();
+					renderMonthGoals();
+					console.log(monthGoals);
+				}
+			});
 			break;
 		}
 	}
@@ -497,6 +497,56 @@ function showTodoModal(month, day, callback) {
 	const handleKeydown = (e) => {
 		if (e.key === "Enter") {
 			handleConfirm();
+		} else if (e.key === "Escape") {
+			handleCancel();
+		}
+	};
+
+	// 이벤트 리스너 정리
+	const cleanup = () => {
+		confirmBtn.removeEventListener("click", handleConfirm);
+		cancelBtn.removeEventListener("click", handleCancel);
+		modalInput.removeEventListener("keydown", handleKeydown);
+	};
+
+	confirmBtn.addEventListener("click", handleConfirm);
+	cancelBtn.addEventListener("click", handleCancel);
+	modalInput.addEventListener("keydown", handleKeydown);
+}
+
+// 목표 수정 모달
+function showEditGoalModal(currentText, callback) {
+	const modal = document.getElementById("todo-modal");
+	const modalTitle = document.getElementById("modal-title");
+	const modalInput = document.getElementById("modal-input");
+	const confirmBtn = document.getElementById("modal-confirm");
+	const cancelBtn = document.getElementById("modal-cancel");
+
+	modalTitle.textContent = "목표를 수정하세요:";
+	modalInput.value = currentText;
+	modal.style.display = "flex";
+	modalInput.focus();
+	modalInput.select();
+
+	// 확인 버튼
+	const handleConfirm = () => {
+		const value = modalInput.value;
+		modal.style.display = "none";
+		callback(value);
+		cleanup();
+	};
+
+	// 취소 버튼
+	const handleCancel = () => {
+		modal.style.display = "none";
+		callback(""); // 빈 문자열로 취소 처리
+		cleanup();
+	};
+
+	// 엔터키 처리
+	const handleKeydown = (e) => {
+		if (e.key === "Enter") {
+			handelConfirm();
 		} else if (e.key === "Escape") {
 			handleCancel();
 		}
