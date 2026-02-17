@@ -7,6 +7,8 @@ let filter = "all";
 let todos = [
 	{ id: 1, text: "아이템 추가", done: false },
 	{ id: 2, text: "냠냠냠", done: false },
+    { id: 3, text: "명절인데 뭐?", done: false },
+    { id: 4, text: "그래도 과제는 해야지!!", done: false },
 ];
 
 const render = () => {
