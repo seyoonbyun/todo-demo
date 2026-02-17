@@ -15,12 +15,19 @@ body {
 }
 
 .app {
-  width: 700px;
-  max-width: 100%;
+  width: 1400px;
+  max-width: 95vw;
   background: #ffffff;
   border-radius: 16px;
   padding: 32px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin-top: 24px;
 }
 
 .title {
@@ -198,4 +205,148 @@ body {
   background: #ff6b6b;
   color: white;
   transform: scale(1.05);
+}
+
+/* Calendar Styles */
+.calendar-section {
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.calendar-header h3 {
+  font-size: 18px;
+  color: #333;
+  min-width: 150px;
+  text-align: center;
+}
+
+.calendar-nav {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.calendar-nav:hover {
+  transform: scale(1.05);
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-bottom: 12px;
+  font-weight: 600;
+  color: #667eea;
+  text-align: center;
+  font-size: 12px;
+}
+
+.calendar-weekdays div {
+  padding: 8px 0;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.calendar-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.calendar-day:hover:not(.other-month) {
+  border-color: #667eea;
+  background: #f5f7ff;
+}
+
+.calendar-day.other-month {
+  color: #ccc;
+  cursor: default;
+}
+
+.calendar-day.selected {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-color: #667eea;
+}
+
+.calendar-day.today {
+  border: 2px solid #667eea;
+}
+
+/* Todo Section */
+.todo-section {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mobile Responsive Design */
+@media (max-width: 768px) {
+  .app {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .calendar-section {
+    order: 1;
+  }
+
+  .todo-section {
+    order: 2;
+  }
+
+  .calendar-weekdays {
+    font-size: 11px;
+  }
+
+  .calendar-day {
+    font-size: 12px;
+  }
+
+  .composer input {
+    font-size: 14px;
+    padding: 12px 14px;
+  }
+
+  .list__item {
+    padding: 12px;
+    flex-wrap: wrap;
+  }
+
+  .list__text {
+    font-size: 14px;
+  }
 }
